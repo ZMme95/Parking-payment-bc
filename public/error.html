@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Error - Parking Payment BC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            color: #003366;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #d32f2f;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .message {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .error-details {
+            background: #ffebee;
+            border-left: 4px solid #d32f2f;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .error-details h3 {
+            color: #c62828;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .error-details p {
+            color: #b71c1c;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .error-details ul {
+            margin-top: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .troubleshooting {
+            background: #f5f5f5;
+            border-left: 4px solid #666;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .troubleshooting h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .troubleshooting ol {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-left: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        button, a {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(0, 77, 153, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+        }
+
+        .btn-secondary:hover {
+            background: #ffebee;
+        }
+
+        .footer {
+            color: #999;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .support-link {
+            color: #004d99;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .support-link:hover {
+            text-decoration: underline;
+        }
+
+        .bc-badge {
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #004d99;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button, a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-icon">⚠️</div>
+        
+        <h1>Payment Error</h1>
+        <p class="subtitle">Something went wrong with your payment</p>
+
+        <p class="message">
+            We encountered an error processing your parking payment. Your account has not been charged. Please try again or contact our support team for assistance.
+        </p>
+
+        <div class="error-details">
+            <h3>❌ What Went Wrong?</h3>
+            <p>
+                The payment processing failed. This could be due to:
+            </p>
+            <ul>
+                <li>Invalid payment information</li>
+                <li>Insufficient funds in your PayPal account or card</li>
+                <li>PayPal or card account restrictions</li>
+                <li>Network or server connectivity issues</li>
+                <li>Card declined by your bank</li>
+            </ul>
+        </div>
+
+        <div class="troubleshooting">
+            <h3>🔧 How to Fix This</h3>
+            <ol>
+                <li>Verify your payment method has sufficient funds</li>
+                <li>Check that your PayPal or card account is in good standing</li>
+                <li>Try the payment again from the beginning</li>
+                <li>Contact your bank if your card was declined</li>
+                <li>Clear your browser cache and cookies if the problem persists</li>
+            </ol>
+        </div>
+
+        <div class="button-group">
+            <a href="/" class="btn-primary">Try Again</a>
+            <a href="/" class="btn-secondary">Return to Home</a>
+        </div>
+
+        <div class="bc-badge">🍁 British Columbia, Canada</div>
+
+        <div class="footer">
+            <p>Still having issues? <a href="mailto:support@parkingpaymentbc.com" class="support-link">Contact our support team</a></p>
+            <p>© 2025 Parking Payment BC. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

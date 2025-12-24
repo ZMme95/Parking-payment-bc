@@ -1,0 +1,17 @@
+{
+  "name": "payment-portal",
+  "version": "1.0.0",
+  "description": "Payment portal with PayPal integration",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "paypal-rest-sdk": "^1.7.1",
+    "dotenv": "^16.0.3",
+    "uuid": "^9.0.0"
+  }
+}

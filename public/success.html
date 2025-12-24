@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Parking Payment BC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 0.6s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            color: #003366;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #27ae60;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .message {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .details {
+            background: #f5f7fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .next-steps {
+            background: #e3f2fd;
+            border-left: 4px solid #004d99;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            color: #003366;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .next-steps ol {
+            color: #003d7a;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-left: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        button, a {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(0, 77, 153, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #004d99;
+            border: 2px solid #004d99;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f4f8;
+        }
+
+        .footer {
+            color: #999;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .security-note {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .security-note::before {
+            content: '🔒 ';
+        }
+
+        .bc-badge {
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #004d99;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button, a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        
+        <h1>Payment Successful!</h1>
+        <p class="subtitle">Your parking session is now active</p>
+
+        <p class="message">
+            Thank you for your payment! Your parking session has been activated and your vehicle is now authorized to park in Zone A, British Columbia. Your license plate has been registered in our system.
+        </p>
+
+        <div class="details">
+            <div class="detail-row">
+                <span class="detail-label">Transaction Status:</span>
+                <span class="detail-value">✓ Completed</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Location:</span>
+                <span class="detail-value">British Columbia, CA</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Currency:</span>
+                <span class="detail-value">CAD</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Receipt:</span>
+                <span class="detail-value">Check your email</span>
+            </div>
+        </div>
+
+        <div class="next-steps">
+            <h3>📋 What's Next?</h3>
+            <ol>
+                <li>Your parking session is now active</li>
+                <li>A receipt has been sent to your email</li>
+                <li>Keep your receipt for your records</li>
+                <li>Your license plate is registered in our system</li>
+                <li>Parking is valid in Zone A, British Columbia</li>
+            </ol>
+        </div>
+
+        <div class="button-group">
+            <a href="/parking-session" class="btn-primary">View Parking Timer</a>
+            <button class="btn-secondary" onclick="window.print()">Print Receipt</button>
+        </div>
+
+        <div class="security-note">
+            Your payment information was processed securely and is encrypted
+        </div>
+
+        <div class="bc-badge">🍁 British Columbia, Canada</div>
+
+        <div class="footer">
+            <p>If you have any questions, please contact our support team.</p>
+            <p>© 2025 Parking Payment BC. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

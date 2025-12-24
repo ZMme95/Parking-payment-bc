@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled - Parking Payment BC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .cancel-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            color: #003366;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #f57c00;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .message {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .info-box {
+            background: #fff3e0;
+            border-left: 4px solid #f57c00;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .info-box h3 {
+            color: #e65100;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .info-box p {
+            color: #bf360c;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .info-box ul {
+            margin-top: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        button, a {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(0, 77, 153, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #f57c00;
+            border: 2px solid #f57c00;
+        }
+
+        .btn-secondary:hover {
+            background: #fff3e0;
+        }
+
+        .footer {
+            color: #999;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .support-link {
+            color: #004d99;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .support-link:hover {
+            text-decoration: underline;
+        }
+
+        .bc-badge {
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #004d99;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button, a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cancel-icon">⏸️</div>
+        
+        <h1>Payment Cancelled</h1>
+        <p class="subtitle">Your payment was not processed</p>
+
+        <p class="message">
+            Your parking payment has been cancelled. No charges have been made to your account. You can return to the parking payment page to try again or select a different parking duration.
+        </p>
+
+        <div class="info-box">
+            <h3>💡 What Happened?</h3>
+            <p>
+                Your payment was cancelled before it was completed. This could be due to:
+            </p>
+            <ul>
+                <li>You cancelled the payment during checkout</li>
+                <li>Your PayPal or card session expired</li>
+                <li>A connection error occurred</li>
+                <li>Your payment method was declined</li>
+            </ul>
+        </div>
+
+        <div class="button-group">
+            <a href="/" class="btn-primary">Try Again</a>
+            <a href="/" class="btn-secondary">Return to Home</a>
+        </div>
+
+        <div class="bc-badge">🍁 British Columbia, Canada</div>
+
+        <div class="footer">
+            <p>Need help? <a href="mailto:support@parkingpaymentbc.com" class="support-link">Contact our support team</a></p>
+            <p>© 2025 Parking Payment BC. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

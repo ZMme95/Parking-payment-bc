@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Payment BC - Quick & Easy</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .header .icon {
+            font-size: 3rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .bc-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .info-banner {
+            background: #e3f2fd;
+            border-left: 4px solid #004d99;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .info-banner h3 {
+            color: #003366;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-banner p {
+            color: #003d7a;
+            font-size: 0.95rem;
+        }
+
+        .parking-details {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .detail-item {
+            border-left: 3px solid #004d99;
+            padding-left: 1rem;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            font-size: 1.3rem;
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .vehicle-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .vehicle-section h3 {
+            color: #003366;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #003366;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #004d99;
+            box-shadow: 0 0 0 3px rgba(0, 77, 153, 0.1);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.4rem;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .license-plate-display {
+            background: #ffd700;
+            border: 3px solid #000;
+            border-radius: 4px;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .duration-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .duration-section h3 {
+            color: #003366;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .duration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .duration-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .duration-card:hover {
+            border-color: #004d99;
+            box-shadow: 0 4px 12px rgba(0, 77, 153, 0.15);
+        }
+
+        .duration-card.selected {
+            border-color: #004d99;
+            background: #f0f4f8;
+            box-shadow: 0 4px 12px rgba(0, 77, 153, 0.2);
+        }
+
+        .duration-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #004d99;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .duration-card h4 {
+            color: #003366;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .duration-card .duration-label {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .duration-card .price {
+            font-size: 1.8rem;
+            color: #004d99;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .duration-card .per-session {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .summary-section {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .summary-section.active {
+            display: block;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #004d99;
+            padding-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #003366;
+        }
+
+        .payment-method-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .payment-method-section h3 {
+            color: #003366;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-method:hover {
+            border-color: #004d99;
+            box-shadow: 0 4px 12px rgba(0, 77, 153, 0.15);
+        }
+
+        .payment-method.selected {
+            border-color: #004d99;
+            background: #f0f4f8;
+            box-shadow: 0 4px 12px rgba(0, 77, 153, 0.2);
+        }
+
+        .payment-method .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-method .label {
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .card-form {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .card-form.active {
+            display: block;
+        }
+
+        .stripe-element {
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            background: white;
+            margin-bottom: 1rem;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            padding: 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-clear {
+            background: white;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+        }
+
+        .btn-clear:hover {
+            background: #ffebee;
+        }
+
+        .btn-proceed {
+            background: #004d99;
+            color: white;
+            grid-column: 2;
+        }
+
+        .btn-proceed:hover:not(:disabled) {
+            background: #003366;
+            box-shadow: 0 4px 12px rgba(0, 77, 153, 0.3);
+        }
+
+        .btn-proceed:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .security-badge {
+            text-align: center;
+            margin-top: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .security-badge::before {
+            content: '🔒';
+            margin-right: 0.5rem;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #c62828;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .parking-details {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-proceed {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><span class="icon">🅿️</span> Parking Payment BC</h1>
+        <p>Fast, Secure, and Easy</p>
+        <div class="bc-badge">🍁 British Columbia, Canada</div>
+    </div>
+
+    <div class="container">
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="info-banner">
+            <h3>⚠️ Parking Information</h3>
+            <p>Select your desired parking duration and provide your license plate number. Your parking session will be activated immediately upon successful payment. All transactions are secure and encrypted. Prices in Canadian dollars (CAD).</p>
+        </div>
+
+        <div class="parking-details">
+            <div class="detail-item">
+                <div class="detail-label">Parking Zone</div>
+                <div class="detail-value">Zone A - BC</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Space Number</div>
+                <div class="detail-value">TBD</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Currency</div>
+                <div class="detail-value">CAD</div>
+            </div>
+        </div>
+
+        <div class="vehicle-section">
+            <h3>🚗 Vehicle Information</h3>
+            <div class="form-group">
+                <label for="licensePlate">License Plate Number</label>
+                <input 
+                    type="text" 
+                    id="licensePlate" 
+                    placeholder="e.g., ABC-1234 or ABC1234"
+                    maxlength="10"
+                >
+                <small>Enter your vehicle's license plate number. This will appear on your receipt.</small>
+            </div>
+            <div class="license-plate-display" id="licensePlateDisplay">
+                <div style="text-align: center;">
+                    <div style="font-size: 0.6em; letter-spacing: 0.1em;">BC</div>
+                    <div id="plateText">---</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="duration-section">
+            <h3>⏱️ Select Parking Duration</h3>
+            <p class="section-description">Choose the parking duration that best fits your needs. Longer durations offer better value. All prices in Canadian dollars (CAD).</p>
+            <div class="duration-grid">
+                <div class="duration-card" data-tier="1hr">
+                    <div class="duration-label">1 Hour</div>
+                    <h4>1 HOUR</h4>
+                    <div class="price">$8.50</div>
+                    <div class="per-session">CAD</div>
+                </div>
+                <div class="duration-card" data-tier="1day">
+                    <div class="duration-label">1 Day</div>
+                    <h4>1 DAY</h4>
+                    <div class="price">$36.50</div>
+                    <div class="per-session">CAD</div>
+                </div>
+                <div class="duration-card" data-tier="1week">
+                    <div class="duration-label">1 Week</div>
+                    <h4>1 WEEK</h4>
+                    <div class="price">$118.50</div>
+                    <div class="per-session">CAD</div>
+                </div>
+                <div class="duration-card" data-tier="1month">
+                    <div class="duration-label">1 Month</div>
+                    <h4>1 MONTH</h4>
+                    <div class="price">$175.00</div>
+                    <div class="per-session">CAD</div>
+                </div>
+            </div>
+
+            <div class="summary-section" id="summarySection">
+                <div class="summary-row">
+                    <span>Duration:</span>
+                    <span id="summaryDuration">-</span>
+                </div>
+                <div class="summary-row">
+                    <span>Amount (CAD):</span>
+                    <span id="summaryAmount">-</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total Due:</span>
+                    <span id="summaryTotal">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-method-section">
+            <h3>💳 Payment Method</h3>
+            <p class="section-description">We accept PayPal, Debit Cards, and Credit Cards for secure and convenient payments. Your information is protected with industry-leading encryption.</p>
+            <div class="payment-methods">
+                <div class="payment-method selected" data-method="paypal">
+                    <div class="icon">🅿️</div>
+                    <div class="label">PayPal</div>
+                </div>
+                <div class="payment-method" data-method="card">
+                    <div class="icon">💳</div>
+                    <div class="label">Debit/Credit</div>
+                </div>
+            </div>
+
+            <div class="card-form" id="cardForm">
+                <div class="form-group">
+                    <label for="cardName">Cardholder Name</label>
+                    <input type="text" id="cardName" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardEmail">Email Address</label>
+                    <input type="email" id="cardEmail" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Card Details</label>
+                    <div class="stripe-element" id="card-element"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-clear" id="clearBtn">CLEAR</button>
+            <button class="btn-proceed" id="payBtn">PROCEED TO PAYMENT</button>
+        </div>
+
+        <div class="security-badge">
+            Secure Payment | Your payment information is encrypted and secure
+        </div>
+    </div>
+
+    <script>
+        const pricingData = {
+            '1hr': { name: '1 Hour', price: 8.50 },
+            '1day': { name: '1 Day', price: 36.50 },
+            '1week': { name: '1 Week', price: 118.50 },
+            '1month': { name: '1 Month', price: 175.00 }
+        };
+
+        let selectedTier = null;
+        let selectedMethod = 'paypal';
+        let stripe = null;
+        let elements = null;
+        let cardElement = null;
+
+        // Initialize Stripe
+        function initStripe() {
+            const stripeKey = document.querySelector('script[data-stripe-key]')?.dataset.stripeKey;
+            if (stripeKey) {
+                stripe = Stripe(stripeKey);
+                elements = stripe.elements();
+                cardElement = elements.create('card');
+            }
+        }
+
+        // License plate input handler
+        document.getElementById('licensePlate').addEventListener('input', (e) => {
+            const value = e.target.value.toUpperCase();
+            document.getElementById('plateText').textContent = value || '---';
+        });
+
+        // Duration card selection
+        document.querySelectorAll('.duration-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedTier = card.dataset.tier;
+                updateSummary();
+            });
+        });
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                method.classList.add('selected');
+                selectedMethod = method.dataset.method;
+
+                const cardForm = document.getElementById('cardForm');
+                if (selectedMethod === 'card') {
+                    cardForm.classList.add('active');
+                    if (cardElement && !cardElement.parentElement) {
+                        cardElement.mount('#card-element');
+                    }
+                } else {
+                    cardForm.classList.remove('active');
+                }
+            });
+        });
+
+        function updateSummary() {
+            if (selectedTier) {
+                const tier = pricingData[selectedTier];
+                document.getElementById('summaryDuration').textContent = tier.name;
+                document.getElementById('summaryAmount').textContent = `$${tier.price.toFixed(2)} CAD`;
+                document.getElementById('summaryTotal').textContent = `$${tier.price.toFixed(2)} CAD`;
+                document.getElementById('summarySection').classList.add('active');
+            }
+        }
+
+        // Clear button
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('licensePlate').value = '';
+            document.getElementById('plateText').textContent = '---';
+            document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById('summarySection').classList.remove('active');
+            selectedTier = null;
+            hideError();
+        });
+
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        // Proceed to payment
+        document.getElementById('payBtn').addEventListener('click', async () => {
+            hideError();
+
+            const licensePlate = document.getElementById('licensePlate').value.trim();
+            if (!licensePlate) {
+                showError('⚠️ Please enter your license plate number');
+                return;
+            }
+
+            if (!selectedTier) {
+                showError('⚠️ Please select a parking duration');
+                return;
+            }
+
+            if (selectedMethod === 'card') {
+                // Handle card payment
+                const cardName = document.getElementById('cardName').value.trim();
+                const cardEmail = document.getElementById('cardEmail').value.trim();
+
+                if (!cardName || !cardEmail) {
+                    showError('⚠️ Please enter your name and email');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/create-payment-intent', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            tierId: selectedTier,
+                            licensePlate: licensePlate,
+                            cardName: cardName,
+                            cardEmail: cardEmail
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        showError(`❌ ${data.error || 'Payment creation failed'}`);
+                        return;
+                    }
+
+                    // Confirm payment with Stripe
+                    const result = await stripe.confirmCardPayment(data.clientSecret, {
+                        payment_method: {
+                            card: cardElement,
+                            billing_details: {
+                                name: cardName,
+                                email: cardEmail
+                            }
+                        }
+                    });
+
+                    if (result.error) {
+                        showError(`❌ ${result.error.message}`);
+                    } else if (result.paymentIntent.status === 'succeeded') {
+                        localStorage.setItem('lastLicensePlate', licensePlate);
+                        localStorage.setItem('lastDuration', selectedTier);
+                        localStorage.setItem('lastStartTime', new Date().toISOString());
+                        localStorage.setItem('lastPaymentId', result.paymentIntent.id);
+                        window.location.href = '/success';
+                    }
+                } catch (error) {
+                    showError('❌ An error occurred. Please try again.');
+                    console.error('Error:', error);
+                }
+            } else {
+                // Handle PayPal payment
+                try {
+                    const response = await fetch('/api/orders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            tierId: selectedTier,
+                            licensePlate: licensePlate
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        showError(`❌ ${data.error || 'Payment creation failed'}`);
+                        return;
+                    }
+
+                    // Store session data
+                    localStorage.setItem('lastLicensePlate', licensePlate);
+                    localStorage.setItem('lastDuration', selectedTier);
+                    localStorage.setItem('lastStartTime', new Date().toISOString());
+                    localStorage.setItem('lastPaymentId', data.id);
+                    // Redirect to PayPal
+                    window.location.href = `https://www.paypal.com/checkoutnow?token=${data.id}`;
+                } catch (error) {
+                    showError('❌ An error occurred. Please try again.');
+                    console.error('Error:', error);
+                }
+            }
+        });
+
+        // Initialize Stripe on page load
+        window.addEventListener('load', initStripe);
+    </script>
+</body>
+</html>
