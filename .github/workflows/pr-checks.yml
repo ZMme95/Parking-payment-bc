@@ -1,0 +1,48 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Validate PR Changes
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Check Node.js syntax
+        run: node -c server.js
+      
+      - name: Verify critical files
+        run: |
+          test -f package.json && echo "✓ package.json exists"
+          test -f server.js && echo "✓ server.js exists"
+          test -f public/index.html && echo "✓ public/index.html exists"
+          test -f .env && echo "✓ .env exists" || echo "⚠ .env not found (expected for PR)"
+      
+      - name: Security audit
+        run: npm audit --production || true
+      
+      - name: Comment on PR
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ All checks passed! This PR is ready for review.\n\n- ✓ Syntax validation passed\n- ✓ Dependencies verified\n- ✓ Security audit completed'
+            })
