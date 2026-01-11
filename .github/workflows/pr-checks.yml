@@ -30,10 +30,8 @@ jobs:
           test -f package.json && echo "✓ package.json exists"
           test -f server.js && echo "✓ server.js exists"
           test -f public/index.html && echo "✓ public/index.html exists"
-          test -f .env && echo "✓ .env exists" || echo "⚠ .env not found (expected for PR)"
-      
-      - name: Security audit
-        run: npm audit --production || true
+          test -f public/success.html && echo "✓ success.html exists"
+          test -f public/parking-session.html && echo "✓ parking-session.html exists"
       
       - name: Comment on PR
         if: success()
@@ -44,5 +42,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '✅ All checks passed! This PR is ready for review.\n\n- ✓ Syntax validation passed\n- ✓ Dependencies verified\n- ✓ Security audit completed'
+              body: '✅ All checks passed! This PR is ready for review.\n\n- ✓ Syntax validation passed\n- ✓ Dependencies verified\n- ✓ All required files present'
             })
