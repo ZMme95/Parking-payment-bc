@@ -81,7 +81,7 @@ jobs:
           service: parking-payment-bc
           
       - name: Deployment Status
-        run: |
+        run: |npm build
           echo "✅ Deployment to Railway completed"
           echo "🚀 Application is live at: https://web-production-98a85.up.railway.app"
 
@@ -94,7 +94,7 @@ jobs:
     
     steps:
       - name: Check deployment status
-        run: |
+        run: |mpm deploy
           if [ "${{ needs.deploy.result }}" == "success" ]; then
             echo "✅ Pipeline completed successfully!"
             echo "🎉 Your application has been deployed to production"
