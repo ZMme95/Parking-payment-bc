@@ -94,7 +94,7 @@ jobs:
     
     steps:
       - name: Check deployment status
-        run: |mpm deploy
+        run: |npm deploy
           if [ "${{ needs.deploy.result }}" == "success" ]; then
             echo "✅ Pipeline completed successfully!"
             echo "🎉 Your application has been deployed to production"
